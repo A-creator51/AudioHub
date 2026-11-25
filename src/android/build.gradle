@@ -1,0 +1,7 @@
+plugins {
+    id 'com.android.application' version '8.9.2' apply false
+}
+// Keep generated outputs in the platform BUILD folder, away from source.
+allprojects {
+    layout.buildDirectory.set(rootProject.file('../../build/android/' + project.name))
+}

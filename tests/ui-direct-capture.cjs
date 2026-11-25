@@ -1,0 +1,24 @@
+const {chromium}=require('./browser.cjs');
+const path=require('path');
+(async()=>{const browser=await chromium.launch({...require('./browser.cjs').launchOptions,headless:true});try{
+ const p=await browser.newPage({viewport:{width:1120,height:860}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.addInitScript(()=>{window.__commands=[];window.__state={mode:'a2dp',transport:'a2dp',id:'h',name:'Computer',running:false,localSend:false,localOutputs:[],localSource:'',devices:[{id:'media',name:'Media loopback',input:true,output:true},{id:'out',name:'Speaker',output:true},{id:'out2',name:'Headphones',output:true}],a2dp:{supported:true,connected:true,devices:[{id:'phone',name:'Phone'}]},room:{center:'h',members:[]},settings:{outputMs:160,reserveMs:100,inputMs:100,mmcss:true,lanRange:200,bluetoothRange:400,captureDetail:false,autostart:false,followLog:true,logLevel:'INFO',a2dp:true,bluetoothProtocol:'RFCOMM',bluetoothCodec:'IMA1'},logs:[]};window.AudioHubNative={state:()=>JSON.stringify(__state),command:f=>{__commands.push(f);const a=Object.fromEntries(new URLSearchParams(f));if(a.action==='directCapture'&&a.operation!=='refresh'){__state.localSend=a.operation==='start';__state.localSource=__state.localSend?a.source:'';__state.running=__state.localSend||__state.localOutputs.length>0;}}};});
+ await p.goto('file:///'+path.resolve(__dirname,'../src/ui/index.html').replace(/\\/g,'/'));await p.getByRole('button',{name:'蓝牙',exact:true}).click();
+ if((await p.locator('#directCaptureControls button').allTextContents()).join('|')!=='开启回采|关闭回采|刷新设备')throw Error('Capture button order');
+ if(!await p.locator('#a2dpControls').textContent().then(t=>t.includes('WIN')&&t.includes('多路输出')))throw Error('Missing direct/multi-output explanation');
+ if(await p.locator('#directCaptureDevice').inputValue()!=='media'||!await p.locator('#directCaptureStop').isDisabled())throw Error('Initial capture selection/state');
+ await p.locator('#directCaptureStart').click();await p.waitForTimeout(850);
+ if(!await p.evaluate(()=>__commands.some(c=>c.includes('action=directCapture')&&c.includes('operation=start')&&c.includes('source=media'))))throw Error('Capture start is not independent');
+ if(!await p.locator('#send').isChecked()||!await p.locator('#directCaptureStart').isDisabled()||await p.locator('#directCaptureStop').isDisabled())throw Error('Active capture controls not synchronized');
+ await p.evaluate(()=>{__state.localOutputs=['out','out2'];__state.running=true});await p.locator('#directCaptureStop').click();await p.waitForTimeout(850);
+ if(!await p.evaluate(()=>__state.a2dp.connected&&__state.localOutputs.length===2&&!__state.localSend))throw Error('Stop capture affected connection/playback');
+ await p.locator('#directCaptureRefresh').click();if(!await p.evaluate(()=>__commands.some(c=>c.includes('action=directCapture')&&c.includes('operation=refresh'))))throw Error('Capture refresh uses wrong enumeration');
+ await p.evaluate(()=>{__state.devices=__state.devices.filter(d=>d.id!=='media')});await p.waitForTimeout(850);
+ if(await p.locator('#directCaptureDevice').inputValue()!=='media'||!await p.locator('#directCaptureStart').isDisabled())throw Error('Missing capture device silently changes route');
+ await p.evaluate(()=>{__state.devices.unshift({id:'new',name:'New loopback',input:true,output:true})});await p.waitForTimeout(850);await p.locator('#directCaptureDevice').selectOption('new');
+ if(await p.locator('#directCaptureStart').isDisabled())throw Error('New endpoint cannot be selected');
+ await p.screenshot({path:path.resolve(__dirname,'../build/ui/ui-direct-capture-desktop.png'),fullPage:true});await p.setViewportSize({width:390,height:844});
+ if(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Mobile overflow');await p.screenshot({path:path.resolve(__dirname,'../build/ui/ui-direct-capture-mobile.png'),fullPage:true});
+ await p.evaluate(()=>{__state.a2dp.supported=false});await p.waitForTimeout(850);for(const id of ['directCaptureDevice','directCaptureStart','directCaptureStop','directCaptureRefresh'])if(!await p.locator('#'+id).isDisabled())throw Error('Unsupported platform exposes '+id);
+ if(errors.length)throw Error(errors.join('\n'));console.log('PASS direct capture order, independent commands, synchronized state, output/connection preservation, device removal, unsupported platform and mobile layout');
+ }finally{await browser.close()}})().catch(e=>{console.error(e.message);process.exitCode=1});

@@ -1,0 +1,31 @@
+# PRIVATE: never commit or publish these files.
+.env
+.env.*
+!.env.example
+.signing/
+.local/
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+*.pem
+*.csr
+# Generated files (build scripts remain tracked).
+build/
+dist/
+node_modules/
+.gradle/
+**/local.properties
+*.log
+*.class
+*.apk
+*.aab
+*.zip
+*.nupkg
+device-id.txt
+settings.properties
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,9 @@
+* text=auto
+*.ps1 text eol=crlf
+*.sh text eol=lf
+*.java text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.gradle text eol=lf
+*.dll binary
+*.jar binary

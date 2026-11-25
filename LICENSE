@@ -1,0 +1,47 @@
+AudioHub Personal Non-Commercial License 1.0
+Copyright (c) 2026 A-creator51. All rights reserved except as granted below.
+
+This is a source-available license, NOT an OSI-approved open-source license.
+
+1. Scope. This license applies only to original AudioHub source code,
+documentation and other original material owned by A-creator51. Third-party
+material is excluded and remains governed by its own license, including any
+broader rights. See THIRD_PARTY_NOTICES.md and third_party/.
+
+2. Permission. A natural person may view, copy, study, modify, compile and run
+the covered material solely in a personal capacity for private, non-commercial
+purposes. Public source mirrors, non-commercial forks and non-commercial
+redistribution of modified source or binaries are permitted solely to enable
+the same personal non-commercial use, subject to section 4.
+
+3. Restrictions. No commercial use is licensed. Without separate written
+permission from the copyright holder, you may not sell, rent, sublicense,
+monetize, provide paid services or support using, integrate into a commercial
+product/service, use for advertising revenue, or use the material on behalf of
+an employer, company, organization or client, even without direct payment.
+Organizational use, including non-profit or institutional use, is not granted.
+No permission is granted for commercial machine-learning training or datasets.
+
+4. Conditions. Retain this license and copyright notices in all copies and
+distributions; prominently identify changes and do not imply endorsement.
+Distribute covered derivatives only under these same terms. These conditions
+do NOT restrict third-party components under their own licenses. No trademark
+rights or rights to another person's confidential information are granted.
+This license does not limit rights that cannot legally be restricted, nor
+GitHub's platform permissions necessarily applicable to public repository
+viewing and forking under its terms of service.
+
+5. Termination. Rights under this license terminate upon breach. All other
+rights are reserved. Commercial or other ungranted use requires separate
+written permission from A-creator51.
+
+6. Disclaimer. THE MATERIAL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NON-INFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE
+COPYRIGHT HOLDER IS NOT LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
+ARISING FROM THE MATERIAL OR ITS USE.
+
+中文摘要（英文正文为准）：仅允许自然人以个人身份作非商业学习、修改、
+编译和使用，并可在相同条款下作非商业分发。不授权企业、雇主、客户或
+机构场景，即使不直接收费；商业使用另需书面授权。第三方组件保持原许可，
+不适用本项目的非商业限制。该许可不是通常所称的开源许可。

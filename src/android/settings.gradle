@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        if (System.getenv('AUDIOHUB_USE_MIRROR') == 'true') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+            maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        }
+        google(); mavenCentral(); gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        if (System.getenv('AUDIOHUB_USE_MIRROR') == 'true') {
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/central' }
+        }
+        google(); mavenCentral()
+    }
+}
+rootProject.name = 'AudioHub'
+include ':app'

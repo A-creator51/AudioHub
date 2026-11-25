@@ -1,0 +1,49 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'org.audiohub.app'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'org.audiohub.peer'
+        minSdk 29
+        targetSdk 35
+        versionCode 96
+        versionName '0.9.6-capture'
+    }
+    sourceSets {
+        main.java.srcDirs += '../../shared/src'
+        main.assets.srcDirs += '../../ui'
+        main.assets.srcDirs += rootProject.file('../../build/android/public-notices')
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    signingConfigs {
+        release {
+            def keyPath = System.getenv('AUDIOHUB_KEYSTORE')
+            if (keyPath) {
+                storeFile file(keyPath)
+                storePassword System.getenv('AUDIOHUB_STORE_PASSWORD')
+                keyAlias System.getenv('AUDIOHUB_KEY_ALIAS')
+                keyPassword System.getenv('AUDIOHUB_KEY_PASSWORD')
+                storeType 'PKCS12'
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+// Explicit allowlist: NEVER add the repository root as an assets directory.
+tasks.register('preparePublicNotices', Sync) {
+    from(rootProject.file('../..')) {
+        include 'LICENSE', 'DISCLAIMER.md', 'THIRD_PARTY_NOTICES.md'
+        include 'third_party/licenses/**', 'third_party/webview2/LICENSE.txt', 'third_party/webview2/NOTICE.txt'
+    }
+    into rootProject.file('../../build/android/public-notices/notices')
+}
+tasks.named('preBuild').configure { dependsOn 'preparePublicNotices' }
