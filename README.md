@@ -2,7 +2,7 @@
 
 Windows / Android 局域网和软件蓝牙音频房间，v0.9.6 开发预览。作者标识：**A-creator51**。
 
-源码可见，仅允许个人非商业用途；**不是OSI意义的开源项目**。使用和分发前请阅读 [LICENSE](LICENSE)、[免责声明](DISCLAIMER.md) 和 [第三方声明](THIRD_PARTY_NOTICES.md)。不提供商用或机构使用授权。
+源码可见，仅允许个人非商业用途；**不是OSI意义的开源项目**。使用和分发前请阅读 [使用说明](使用说明.md)、[LICENSE](LICENSE)、[免责声明](DISCLAIMER.md) 和 [第三方声明](THIRD_PARTY_NOTICES.md)。不提供商用或机构使用授权。
 
 ## 功能与边界
 
